@@ -174,8 +174,7 @@ print("\n"*6)
 
 if ValidationChecker() == True:
     print("Validation successful")
-
-
-if VerificationCheck() == True:
-    print("Solution accepted!")
+    if VerificationCheck() == True:
+        print("Solution accepted!")
+    
         
