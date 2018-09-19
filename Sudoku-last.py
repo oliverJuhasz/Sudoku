@@ -79,6 +79,11 @@ def update():
         print(cont)
         print_sudoku2(MatrixList2)
         newcord()
+    elif platform.system() == 'Windows':
+        os.system('cls')
+        print(cont)
+        print_sudoku2(MatrixList2)
+        newcord()        
 
 
 
