@@ -6,6 +6,7 @@ xyz
 import os
 import platform
 import random
+import time
 
 with open("title.txt","r") as f:
     cont =f.read()
@@ -70,6 +71,10 @@ def newcord():
     else:
         MatrixList2[z][y] = change
         update()
+        if ValidationChecker():
+            if VerificationCheck():
+                return True
+                
 
 
 
@@ -78,12 +83,10 @@ def update():
         os.system('clear')
         print(cont)
         print_sudoku2(MatrixList2)
-        newcord()
     elif platform.system() == 'Windows':
         os.system('cls')
         print(cont)
-        print_sudoku2(MatrixList2)
-        newcord()        
+        print_sudoku2(MatrixList2)      
 
 
 
@@ -91,14 +94,14 @@ def ValidationChecker():
 
     ValidationCheck = 0
     for i in range(0,9):
-        if len(list(filter(FilterNumber,MatrixList[i]))) == 9:
+        if len(list(filter(FilterNumber,MatrixList2[i]))) == 9:
             ValidationCheck += 1
 
     templist = []
     for i in range(0,9):
         templist.clear()
         for i2 in range(0,9):
-            templist.append(MatrixList[i2][i])
+            templist.append(MatrixList2[i2][i])
         if len(list(filter(FilterNumber,templist))) == 9:
             ValidationCheck += 1
 
@@ -118,14 +121,14 @@ def FilterNumber(x):
 def VerificationCheck():
     VerificationCheck = 0
     for i in range(0,9):
-        if len(set(MatrixList[i])) == len(MatrixList[i]):
+        if len(set(MatrixList2[i])) == len(MatrixList2[i]):
             VerificationCheck += 1
 
     templist = []
     for i in range(0,9):
         templist.clear()
         for i2 in range(0,9):
-            templist.append(MatrixList[i2][i])
+            templist.append(MatrixList2[i2][i])
         if len(set(templist)) == len(templist):
             VerificationCheck += 1
 
@@ -134,7 +137,7 @@ def VerificationCheck():
             templist.clear()
             for i in range(0,3):
                 for i2 in range(0,3):
-                    templist.append(MatrixList[i2 + block][i + block2])
+                    templist.append(MatrixList2[i2 + block][i + block2])
             if len(set(templist)) == len(templist):
                 VerificationCheck += 1
     if VerificationCheck == 27:
@@ -170,7 +173,18 @@ print_sudoku2(MatrixList2)
 
 # Koordinatak és új értékek:
 
-newcord()
+while True:
+    if newcord() == True:
+        break
+
+if platform.system() == 'Linux':
+    os.system('clear')
+
+elif platform.system() == 'Windows':
+    os.system('cls')
+
+    
+print("Your winner!")
 
 """A győzelmi feltételek , illetve a helyes értékek ellenőrzése , eredmény megjelenítése"""
 
