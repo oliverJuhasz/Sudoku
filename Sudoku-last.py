@@ -15,20 +15,20 @@ with open("title.txt","r") as f:
 with open("sudoku-top95.txt", "r") as f:
     sudokus = f.readlines()
 
-def SudokuImport(x):
+def import_sudoku(x):
     with open("sudoku-top95.txt", "r") as f:
         text = f.read()
         temp = text.split("\n")
         temp.pop(len(temp)-1)
         #print(temp)
         if x == "r":
-            return MatrixFill(temp[random.randint(0,len(temp) - 1)])
+            return fill_matrix(temp[random.randint(0,len(temp) - 1)])
         elif x > 0 and x < len(temp):
-            return MatrixFill(temp[x - 1] )
+            return fill_matrix(temp[x - 1] )
         else:
-            return MatrixFill(temp[1])
+            return fill_matrix(temp[1])
 
-def MatrixFill(string):
+def fill_matrix(string):
     counter = 0
     MatrixList = [[0,1,8,0,0,0,0,3,0],[9,0,0,0,0,2,0,4,5],[7,0,0,0,0,6,0,0,0],[0,0,0,0,0,7,1,2,0],[0,0,0,0,5,0,0,0,0],[0,8,4,3,0,0,0,0,0],[0,0,0,7,0,0,0,0,6],[8,2,0,6,0,0,0,0,9],[0,3,0,0,0,0,5,8,0]]
     for y in range(0,9):
@@ -71,8 +71,8 @@ def newcord():
     else:
         MatrixList2[z][y] = change
         update()
-        if ValidationChecker():
-            if VerificationCheck():
+        if validation_checker():
+            if check_verification():
                 return True
                 
 
@@ -90,11 +90,11 @@ def update():
 
 
 
-def ValidationChecker():
+def validation_checker():
 
     ValidationCheck = 0
     for i in range(0,9):
-        if len(list(filter(FilterNumber,MatrixList2[i]))) == 9:
+        if len(list(filter(filter_number,MatrixList2[i]))) == 9:
             ValidationCheck += 1
 
     templist = []
@@ -102,7 +102,7 @@ def ValidationChecker():
         templist.clear()
         for i2 in range(0,9):
             templist.append(MatrixList2[i2][i])
-        if len(list(filter(FilterNumber,templist))) == 9:
+        if len(list(filter(filter_number,templist))) == 9:
             ValidationCheck += 1
 
     if ValidationCheck == 18:
@@ -110,7 +110,7 @@ def ValidationChecker():
     else:
         return False
 
-def FilterNumber(x):
+def filter_number(x):
     try:
         if 0 < x <10:
             return True
@@ -118,11 +118,11 @@ def FilterNumber(x):
             return False
     except: return False
 
-def VerificationCheck():
-    VerificationCheck = 0
+def check_verification():
+    check_verification = 0
     for i in range(0,9):
         if len(set(MatrixList2[i])) == len(MatrixList2[i]):
-            VerificationCheck += 1
+            check_verification += 1
 
     templist = []
     for i in range(0,9):
@@ -130,7 +130,7 @@ def VerificationCheck():
         for i2 in range(0,9):
             templist.append(MatrixList2[i2][i])
         if len(set(templist)) == len(templist):
-            VerificationCheck += 1
+            check_verification += 1
 
     for block in range(0,7,3):
         for block2 in range(0,7,3):
@@ -139,8 +139,8 @@ def VerificationCheck():
                 for i2 in range(0,3):
                     templist.append(MatrixList2[i2 + block][i + block2])
             if len(set(templist)) == len(templist):
-                VerificationCheck += 1
-    if VerificationCheck == 27:
+                check_verification += 1
+    if check_verification == 27:
         return True
     else:
         return False
@@ -159,7 +159,7 @@ MatrixList = [\
 [0,3,0,0,0,0,5,8,0]]
 
 MatrixList2 = MatrixList
-MatrixList2 = SudokuImport(1) #"r" for random sudoku
+MatrixList2 = import_sudoku(1) #"r" for random sudoku
 #for Line in range(0,9):
     #print(MatrixList[Line])
 
@@ -191,9 +191,9 @@ print("Your winner!")
 print("\n"*6)
 
 
-if ValidationChecker() == True:
+if validation_checker() == True:
     print("Validation successful")
-    if VerificationCheck() == True:
+    if check_verification() == True:
         print("Solution accepted!")
     
         
