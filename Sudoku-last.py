@@ -16,7 +16,7 @@ with open("sudoku-top95.txt", "r") as f:
     sudokus = f.readlines()
 
 def SudokuImport(x):
-    with open("Sudoku-top95.txt", "r") as f:
+    with open("sudoku-top95.txt", "r") as f:
         text = f.read()
         temp = text.split("\n")
         temp.pop(len(temp)-1)
