@@ -1,6 +1,6 @@
 """
 Sudoku game by Roland and Oliver. All rights reserved.
-xyz
+
 """
 
 import os
@@ -14,6 +14,9 @@ with open("title.txt","r") as f:
 
 with open("sudoku-top95.txt", "r") as f:
     sudokus = f.readlines()
+
+def ValueCheck(x,y):
+    return True if matrix_list_original[x][y] > 0 else False
 
 def SudokuImport(x):
     with open("Sudoku-top95.txt", "r") as f:
@@ -61,15 +64,15 @@ def newcord():
     y = (int(input(" Enter a number between 1-9 , ( 0 for clear your mistake ):  "))) - 1
     if y not in valid_numbers:
         print("Enter a valid number between 1-9 ")
-        print(MatrixList2[z][y])
+        print(matrix_list_prod[z][y])
     else:
-        print(MatrixList2[z][y])    
+        print(matrix_list_prod[z][y])    
     change = int(input(" Enter the new value:  "))
     if change not in valid_numbers:
         print("Enter a valid number between 1-9 ")
         change = int(input(" Enter the new value:  "))
     else:
-        MatrixList2[z][y] = change
+        matrix_list_prod[z][y] = change
         update()
         if check_validation():
             if check_verification():
@@ -82,18 +85,18 @@ def update():
     if platform.system() == 'Linux':
         os.system('clear')
         print(cont)
-        print_sudoku2(MatrixList2)
+        print_sudoku2(matrix_list_prod)
     elif platform.system() == 'Windows':
         os.system('cls')
         print(cont)
-        print_sudoku2(MatrixList2)      
+        print_sudoku2(matrix_list_prod)      
 
 
 
 def check_validation():
     ValidationCheck = 0  
     for i in range(0,9):
-        if len(list(filter(lambda x: 10 > x > 0,MatrixList2[i]))) == 9:
+        if len(list(filter(lambda x: 10 > x > 0,matrix_list_prod[i]))) == 9:
             ValidationCheck += 1
         templist = [[i2][0] for i2 in range(0,9)]
         if len(list(filter(lambda x: 10 > x > 0,templist))):
@@ -103,7 +106,7 @@ def check_validation():
 def check_verification():
     check_verification = 0
     for i in range(0,9):
-        if len(set(MatrixList2[i])) == len(MatrixList2[i]):
+        if len(set(matrix_list_prod[i])) == len(matrix_list_prod[i]):
             check_verification += 1
         templist = [[i2][0] for i2 in range(0,9)]
         if len(set(templist)) == len(templist):
@@ -113,14 +116,14 @@ def check_verification():
             templist.clear()
             for i in range(0,3):
                 for i2 in range(0,3):
-                    templist.append(MatrixList2[i2 + block][i + block2])
+                    templist.append(matrix_list_prod[i2 + block][i + block2])
             if len(set(templist)) == len(templist):
                 check_verification += 1
     return True if check_verification == 27 else False
 
 # A mátrix , a sudoku mezőinek értékeivel. Az értékek mátrix elemenként változtathatóak.
 
-MatrixList = [\
+matrix_list_original = [\
 [0,1,8,0,0,0,0,3,0],
 [9,0,0,0,0,2,0,4,5],
 [7,0,0,0,0,6,0,0,0],
@@ -131,15 +134,15 @@ MatrixList = [\
 [8,2,0,6,0,0,0,0,9],
 [0,3,0,0,0,0,5,8,0]]
 
-MatrixList2 = MatrixList
-MatrixList2 = SudokuImport(1) #"r" for random sudoku
+matrix_list_original = SudokuImport(1)
+matrix_list_prod = SudokuImport(1) #"r" for random sudoku
 #for Line in range(0,9):
     #print(MatrixList[Line])
 
 
 """Itt következik maga a sudoku tábla."""
 
-print_sudoku2(MatrixList2)
+print_sudoku2(matrix_list_prod)
 
 """A koordinatak a 9x9-es táblát A1-től I9-ig osztják fel. Egy harmadik inputtal a kivalasztott mátrix pontra lehet
     új értéket megadni , illetve javítani az előző értéken."""
