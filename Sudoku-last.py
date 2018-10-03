@@ -91,12 +91,18 @@ def newcord():
     if change not in valid_numbers:
         print("Enter a valid number between 1-9 ")
         change = int(input(" Enter the new value:  "))
-    else:
-        matrix_list_prod[z][y] = change
-        update()
-        if check_validation():
-            if check_verification():
-                return True
+        if change not in valid_numbers:
+            print("Wrong input")
+            continue
+        elif ValueCheck(z,y) == True:
+            print("You cannot edit original numbers!")
+            continue
+        else:
+            matrix_list_prod[z][y] = change
+            update()
+            if check_validation():
+                if check_verification():
+                    return True
                 
 
 
