@@ -69,36 +69,34 @@ def print_sudoku2(board):  # A board a mátrix!!
             print("            " + "┠" + ("───┼"*2 + "───╂")*2 + "───┼"*2 + "───┨")
     #print("            " + "┗" + "━━━┻"*8 + "━━━┛")
 
-def newcord():
-    x = input(" Enter a letter between A and I:  ").upper()
-    ABC = {"A":0, "B":1, "C":2, "D":3, "E":4, "F":5, "G":6, "H":7, "I":8}
-    try:
-        z = ABC[x]
-    except KeyError:
-        print("Wrong input ")
-        x = input(" Enter a letter between A and I:  ")
-        z = ABC[x] 
-    valid_numbers = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9,)
-    y = (int(input(" Enter a number between 1-9 , ( 0 for clear your mistake ):  "))) - 1
-    if ValueCheck(z,y) == True:
-        print("nem jo")
-    if y not in valid_numbers:
-        print("Enter a valid number between 1-9 ")
-        print(matrix_list_prod[z][y])
-    else:
-        print(matrix_list_prod[z][y])    
-    change = int(input(" Enter the new value:  "))
-    if change not in valid_numbers:
-        print("Enter a valid number between 1-9 ")
-        change = int(input(" Enter the new value:  "))
-    else:
-        matrix_list_prod[z][y] = change
-        update()
+def user_input():
+    while True:
+        userinput = input("Enter the coordinates of the value you wish to change, followed by colon and the new value.\nFor example, 'A1:4'.\nPress q to quit game:  ").upper()
+        if userinput == "q" or userinput == "Q": quit()
+        if len(userinput) != 4:
+            print("\nInvalid input, please try again!" + "\n" *2)
+            continue
+        ABC = {"A":0, "B":1, "C":2, "D":3, "E":4, "F":5, "G":6, "H":7, "I":8}
+        valid_numbers = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+        print(userinput[0])
+        print(userinput[1])
+        print(userinput[2])
+        print(userinput[3])
+        if (int(userinput[1]) not in valid_numbers[1:] 
+        or int(userinput[3]) not in valid_numbers
+        or userinput[0] not in list(ABC.keys())
+        or userinput[2] != ":"):
+            print("\nInvalid input, please try again!" + "\n" *2)
+            continue
+        x = int(ABC[userinput[0]])
+        y = int(userinput[1])
+        req_value = int(userinput[3])
+        matrix_list_prod[x][y] = req_value
+        update()        
         if check_validation():
             if check_verification():
                 return True
-                
-
+        continue
 
 
 def update():
@@ -171,7 +169,7 @@ print_sudoku2(matrix_list_prod)
 # Koordinatak és új értékek:
 
 while True:
-    if newcord() == True:
+    if user_input() == True:
         break
 
 if platform.system() == 'Linux':
