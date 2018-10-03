@@ -1,15 +1,12 @@
 """
 Sudoku game by Roland and Oliver. All rights reserved.
-xyz
+
 """
 
 import os
 import platform
 import random
 import time
-from colorama import init
-from colorama import Fore, Back, Style
-
 
 with open("title.txt","r") as f:
     cont =f.read()
@@ -18,20 +15,23 @@ with open("title.txt","r") as f:
 with open("sudoku-top95.txt", "r") as f:
     sudokus = f.readlines()
 
-def import_sudoku(x):
-    with open("sudoku-top95.txt", "r") as f:
+def ValueCheck(x,y):
+    return True if matrix_list_original[x][y] > 0 else False
+
+def SudokuImport(x):
+    with open("Sudoku-top95.txt", "r") as f:
         text = f.read()
         temp = text.split("\n")
         temp.pop(len(temp)-1)
         #print(temp)
         if x == "r":
-            return fill_matrix(temp[random.randint(0,len(temp) - 1)])
+            return MatrixFill(temp[random.randint(0,len(temp) - 1)])
         elif x > 0 and x < len(temp):
-            return fill_matrix(temp[x - 1] )
+            return MatrixFill(temp[x - 1] )
         else:
-            return fill_matrix(temp[1])
+            return MatrixFill(temp[1])
 
-def fill_matrix(string):
+def MatrixFill(string):
     counter = 0
     MatrixList = [[0,1,8,0,0,0,0,3,0],[9,0,0,0,0,2,0,4,5],[7,0,0,0,0,6,0,0,0],[0,0,0,0,0,7,1,2,0],[0,0,0,0,5,0,0,0,0],[0,8,4,3,0,0,0,0,0],[0,0,0,7,0,0,0,0,6],[8,2,0,6,0,0,0,0,9],[0,3,0,0,0,0,5,8,0]]
     for y in range(0,9):
@@ -39,10 +39,6 @@ def fill_matrix(string):
             MatrixList[y][x] = int(string[counter])
             counter += 1
     return MatrixList
-
-def print_matrix_values():
-    pass
-
     
 def print_sudoku2(board):  # A board a mátrix!!
     letters = tuple(("A","B","C","D","E","F","G","H","I"))
@@ -59,34 +55,31 @@ def print_sudoku2(board):  # A board a mátrix!!
     #print("            " + "┗" + "━━━┻"*8 + "━━━┛")
 
 def newcord():
+    x = input(" Enter a letter between A and I:  ").upper()
+    ABC = {"A":0, "B":1, "C":2, "D":3, "E":4, "F":5, "G":6, "H":7, "I":8}
     try:
-        x = input(" Enter a letter between A and I:  ").upper()
-        ABC = {"A":0, "B":1, "C":2, "D":3, "E":4, "F":5, "G":6, "H":7, "I":8}
-        try:
-            z = ABC[x]
-        except KeyError:
-            print("Wrong input ")
-            x = input(" Enter a letter between A and I:  ")
-            z = ABC[x] 
-        valid_numbers = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9,)
-        y = (int(input(" Enter a number between 1-9 , ( 0 for clear your mistake ):  "))) - 1
-        if y not in valid_numbers:
-            print("Enter a valid number between 1-9 ")
-            print(MatrixList2[z][y])
-        else:
-            print(MatrixList2[z][y])
+        z = ABC[x]
+    except KeyError:
+        print("Wrong input ")
+        x = input(" Enter a letter between A and I:  ")
+        z = ABC[x] 
+    valid_numbers = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9,)
+    y = (int(input(" Enter a number between 1-9 , ( 0 for clear your mistake ):  "))) - 1
+    if y not in valid_numbers:
+        print("Enter a valid number between 1-9 ")
+        print(matrix_list_prod[z][y])
+    else:
+        print(matrix_list_prod[z][y])    
+    change = int(input(" Enter the new value:  "))
+    if change not in valid_numbers:
+        print("Enter a valid number between 1-9 ")
         change = int(input(" Enter the new value:  "))
-        if change not in valid_numbers:
-            print("Enter a valid number between 1-9 ")
-            change = int(input(" Enter the new value:  "))
-        else:
-            MatrixList2[z][y] = change
-            update()
-            if validation_checker():
-                if check_verification():
-                    return True
-    except ValueError:
-        print(f"{Fore.RED}Number between 1-9!{Style.RESET_ALL}")
+    else:
+        matrix_list_prod[z][y] = change
+        update()
+        if check_validation():
+            if check_verification():
+                return True
                 
 
 
@@ -95,79 +88,64 @@ def update():
     if platform.system() == 'Linux':
         os.system('clear')
         print(cont)
-        print_sudoku2(MatrixList2)
+        print_sudoku2(matrix_list_prod)
     elif platform.system() == 'Windows':
         os.system('cls')
         print(cont)
-        print_sudoku2(MatrixList2)      
+        print_sudoku2(matrix_list_prod)      
 
 
 
-def validation_checker():
-
-    ValidationCheck = 0
+def check_validation():
+    ValidationCheck = 0  
     for i in range(0,9):
-        if len(list(filter(filter_number,MatrixList2[i]))) == 9:
+        if len(list(filter(lambda x: 10 > x > 0,matrix_list_prod[i]))) == 9:
             ValidationCheck += 1
-
-    templist = []
-    for i in range(0,9):
-        templist.clear()
-        for i2 in range(0,9):
-            templist.append(MatrixList2[i2][i])
-        if len(list(filter(filter_number,templist))) == 9:
+        templist = [[i2][0] for i2 in range(0,9)]
+        if len(list(filter(lambda x: 10 > x > 0,templist))):
             ValidationCheck += 1
-
-    if ValidationCheck == 18:
-        return True
-    else:
-        return False
-
-def filter_number(x):
-    try:
-        if 0 < x <10:
-            return True
-        else:
-            return False
-    except: return False
+    return True if ValidationCheck == 18 else False
 
 def check_verification():
     check_verification = 0
     for i in range(0,9):
-        if len(set(MatrixList2[i])) == len(MatrixList2[i]):
+        if len(set(matrix_list_prod[i])) == len(matrix_list_prod[i]):
             check_verification += 1
-
-    templist = []
-    for i in range(0,9):
-        templist.clear()
-        for i2 in range(0,9):
-            templist.append(MatrixList2[i2][i])
+        templist = [[i2][0] for i2 in range(0,9)]
         if len(set(templist)) == len(templist):
             check_verification += 1
-
     for block in range(0,7,3):
         for block2 in range(0,7,3):
             templist.clear()
             for i in range(0,3):
                 for i2 in range(0,3):
-                    templist.append(MatrixList2[i2 + block][i + block2])
+                    templist.append(matrix_list_prod[i2 + block][i + block2])
             if len(set(templist)) == len(templist):
                 check_verification += 1
-    if check_verification == 27:
-        return True
-    else:
-        return False
+    return True if check_verification == 27 else False
 
 # A mátrix , a sudoku mezőinek értékeivel. Az értékek mátrix elemenként változtathatóak.
 
-MatrixList2 = import_sudoku(1) #"r" for random sudoku
+matrix_list_original = [\
+[0,1,8,0,0,0,0,3,0],
+[9,0,0,0,0,2,0,4,5],
+[7,0,0,0,0,6,0,0,0],
+[0,0,0,0,0,7,1,2,0],
+[0,0,0,0,5,0,0,0,0],
+[0,8,4,3,0,0,0,0,0],
+[0,0,0,7,0,0,0,0,6],
+[8,2,0,6,0,0,0,0,9],
+[0,3,0,0,0,0,5,8,0]]
+
+matrix_list_original = SudokuImport(1)
+matrix_list_prod = SudokuImport(1) #"r" for random sudoku
 #for Line in range(0,9):
     #print(MatrixList[Line])
 
 
 """Itt következik maga a sudoku tábla."""
 
-print_sudoku2(MatrixList2)
+print_sudoku2(matrix_list_prod)
 
 """A koordinatak a 9x9-es táblát A1-től I9-ig osztják fel. Egy harmadik inputtal a kivalasztott mátrix pontra lehet
     új értéket megadni , illetve javítani az előző értéken."""
@@ -175,11 +153,8 @@ print_sudoku2(MatrixList2)
 # Koordinatak és új értékek:
 
 while True:
-    try:
-        if newcord() == True:
-            break
-    except KeyError:
-        print(f"{Fore.RED}Please, write a single letter between A and I{Style.RESET_ALL}")
+    if newcord() == True:
+        break
 
 if platform.system() == 'Linux':
     os.system('clear')
@@ -194,12 +169,4 @@ print("Your winner!")
 
 print("\n"*6)
 
-
-if validation_checker() == True:
-    print("Validation successful")
-    if check_verification() == True:
-        print("Solution accepted!")
-
-
-    
         
