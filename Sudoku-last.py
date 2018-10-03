@@ -19,7 +19,7 @@ def ValueCheck(x,y):
     return True if matrix_list_original[x][y] > 0 else False
 
 def SudokuImport(x):
-    with open("Sudoku-top95.txt", "r") as f:
+    with open("sudoku-top95.txt", "r") as f:
         text = f.read()
         temp = text.split("\n")
         temp.pop(len(temp)-1)
