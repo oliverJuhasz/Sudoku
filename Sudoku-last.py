@@ -70,41 +70,35 @@ def print_sudoku2(board):  # A board a mátrix!!
     #print("            " + "┗" + "━━━┻"*8 + "━━━┛")
 
 def newcord():
-    x = input(" Enter a letter between A and I:  ").upper()
-    ABC = {"A":0, "B":1, "C":2, "D":3, "E":4, "F":5, "G":6, "H":7, "I":8}
-    try:
-        z = ABC[x]
-    except KeyError:
-        print("Wrong input ")
-        x = input(" Enter a letter between A and I:  ")
-        z = ABC[x] 
-    valid_numbers = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9,)
-    y = (int(input(" Enter a number between 1-9 , ( 0 for clear your mistake ):  "))) - 1
-    if ValueCheck(z,y) == True:
-        print("nem jo")
-    if y not in valid_numbers:
-        print("Enter a valid number between 1-9 ")
-        print(matrix_list_prod[z][y])
-    else:
-        print(matrix_list_prod[z][y])    
-    change = int(input(" Enter the new value:  "))
-    if change not in valid_numbers:
-        print("Enter a valid number between 1-9 ")
-        change = int(input(" Enter the new value:  "))
-        if change not in valid_numbers:
-            print("Wrong input")
+    while True:
+        x = input("Enter the coordinates of the value you wish to change, followed by colon and the new value.\nFor example, 'A1:4'.\nPress q to quit game:  ").upper()
+        if x == "q" or x == "Q": quit()
+        ABC = {"A":0, "B":1, "C":2, "D":3, "E":4, "F":5, "G":6, "H":7, "I":8}
+        try:
+            z = ABC[x]
+            valid_numbers = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9,)
+            y = (int(input(" Enter a number between 1-9 , ( 0 for clear your mistake ):  "))) - 1
+            if y not in valid_numbers:
+                print("Wrong input")
+                continue
+            else:
+                print(matrix_list_prod[z][y])    
+            change = int(input(" Enter the new value:  "))
+            if change not in valid_numbers:
+                print("Wrong input")
+                continue
+            elif ValueCheck(z,y) == True:
+                print("You cannot edit original numbers!")
+                continue
+            else:
+                matrix_list_prod[z][y] = change
+                update()
+                if check_validation():
+                    if check_verification():
+                        return True
+        except:
+            print("Invalid input!")
             continue
-        elif ValueCheck(z,y) == True:
-            print("You cannot edit original numbers!")
-            continue
-        else:
-            matrix_list_prod[z][y] = change
-            update()
-            if check_validation():
-                if check_verification():
-                    return True
-                
-
 
 
 def update():
