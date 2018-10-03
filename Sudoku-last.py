@@ -60,7 +60,7 @@ def print_sudoku2(board):  # A board a mátrix!!
     print(f"{Fore.BLUE}            " + "  1 " + "  2 " + "  3 " + "  4 " + "  5 " + "  6 " + "  7 " + "  8 " + "  9 " + f"  {Style.RESET_ALL}")
     print("            " + "┏" + "━━━┳"*8 + "━━━┓")
     for i, row in enumerate(board):
-        print(f"{Fore.BLUE}          " + str(letters[i] + f"{Style.RESET_ALL} " + "┃" + " {} │ {} │ {} ┃"*3).format(*[str(x) if x != 0 else " " for x in row]))
+        print(f"{Fore.BLUE}          " + str(letters[i] + f"{Style.RESET_ALL} " + "┃" + f"{Fore.CYAN}"" {} "f"{Style.RESET_ALL}│"f"{Fore.CYAN}"" {} "f"{Style.RESET_ALL}│"f"{Fore.CYAN}"" {} "f"{Style.RESET_ALL}┃"*3).format(*[x if x != 0 else " " for x in row]))
         if i % 3 == 2:
             print("            " + "┣" + ("━━━┿"*2 + "━━━╋")*2 + "━━━┿"*2 + "━━━┫")
         elif i % 20 == 18:
