@@ -41,13 +41,26 @@ def MatrixFill(string):
             MatrixList[y][x] = int(string[counter])
             counter += 1
     return MatrixList
+
+"""def print_numbers(board):
+    for i, row in enumerate(board):
+        for nums in row:
+            if nums != 0:
+                yield nums
+            else:
+                print(" ")"""
+
+"""def print_nums(board):
+    for i, row in enumerate(board):
+            return tuple(x if x != 0 else " " for x in row)"""
+       
     
 def print_sudoku2(board):  # A board a mátrix!!
     letters = tuple(("A","B","C","D","E","F","G","H","I"))
     print(f"{Fore.BLUE}            " + "  1 " + "  2 " + "  3 " + "  4 " + "  5 " + "  6 " + "  7 " + "  8 " + "  9 " + f"  {Style.RESET_ALL}")
     print("            " + "┏" + "━━━┳"*8 + "━━━┓")
     for i, row in enumerate(board):
-        print((f"{Fore.BLUE}          " + str(letters[i] + f"{Style.RESET_ALL} " + "┃" + " {} │ {} │ {} ┃"*3).format(*[x if x != 0 else " " for x in row])))
+        print(f"{Fore.BLUE}          " + str(letters[i] + f"{Style.RESET_ALL} " + "┃" + f" {x if x != 0 else     for x in row} │ {x if x != 0 else     for x in row} │ {x if x != 0 else     for x in row} ┃"*3))
         if i % 3 == 2:
             print("            " + "┣" + ("━━━┿"*2 + "━━━╋")*2 + "━━━┿"*2 + "━━━┫")
         elif i % 20 == 18:
@@ -148,6 +161,8 @@ matrix_list_prod = SudokuImport(1) #"r" for random sudoku
 """Itt következik maga a sudoku tábla."""
 
 print_sudoku2(matrix_list_prod)
+print_numbers(matrix_list_prod) 
+
 
 """A koordinatak a 9x9-es táblát A1-től I9-ig osztják fel. Egy harmadik inputtal a kivalasztott mátrix pontra lehet
     új értéket megadni , illetve javítani az előző értéken."""
