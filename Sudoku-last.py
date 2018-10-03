@@ -41,19 +41,6 @@ def MatrixFill(string):
             MatrixList[y][x] = int(string[counter])
             counter += 1
     return MatrixList
-
-"""def print_numbers(board):
-    for i, row in enumerate(board):
-        for nums in row:
-            if nums != 0:
-                yield nums
-            else:
-                print(" ")"""
-
-"""def print_nums(board):
-    for i, row in enumerate(board):
-            return tuple(x if x != 0 else " " for x in row)"""
-       
     
 def print_sudoku2(board):  # A board a mátrix!!
     letters = tuple(("A","B","C","D","E","F","G","H","I"))
@@ -109,8 +96,6 @@ def update():
         print(cont)
         print_sudoku2(matrix_list_prod)      
 
-
-
 def check_validation():
     ValidationCheck = 0  
     for i in range(0,9):
@@ -157,11 +142,9 @@ matrix_list_prod = SudokuImport(1) #"r" for random sudoku
 #for Line in range(0,9):
     #print(MatrixList[Line])
 
-
 """Itt következik maga a sudoku tábla."""
 
 print_sudoku2(matrix_list_prod)
-
 
 """A koordinatak a 9x9-es táblát A1-től I9-ig osztják fel. Egy harmadik inputtal a kivalasztott mátrix pontra lehet
     új értéket megadni , illetve javítani az előző értéken."""
@@ -177,7 +160,6 @@ if platform.system() == 'Linux':
 
 elif platform.system() == 'Windows':
     os.system('cls')
-
     
 print("Your winner!")
 
