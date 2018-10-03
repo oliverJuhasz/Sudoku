@@ -7,6 +7,8 @@ import os
 import platform
 import random
 import time
+from colorama import init
+from colorama import Fore, Back, Style
 
 with open("title.txt","r") as f:
     cont =f.read()
