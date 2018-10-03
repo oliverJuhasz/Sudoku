@@ -91,13 +91,13 @@ def user_input():
         x = int(ABC[userinput[0]])
         y = int(userinput[1])
         req_value = int(userinput[3])
-        matrix_list_prod[x][y] = req_value
+        matrix_list_prod[x][y-1] = req_value
         update()        
         if check_validation():
             if check_verification():
                 return True
         continue
-
+#C:\Users\olive\AppData\Local\Programs\Python\Python36\python.exe D:\Coding\Sudoku\Sudoku-last-py
 
 def update():
     if platform.system() == 'Linux':
