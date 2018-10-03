@@ -60,7 +60,7 @@ def print_sudoku2(board):  # A board a mátrix!!
     print(f"{Fore.BLUE}            " + "  1 " + "  2 " + "  3 " + "  4 " + "  5 " + "  6 " + "  7 " + "  8 " + "  9 " + f"  {Style.RESET_ALL}")
     print("            " + "┏" + "━━━┳"*8 + "━━━┓")
     for i, row in enumerate(board):
-        print(f"{Fore.BLUE}          " + str(letters[i] + f"{Style.RESET_ALL} " + "┃" + f" {x if x != 0 else     for x in row} │ {x if x != 0 else     for x in row} │ {x if x != 0 else     for x in row} ┃"*3))
+        print(f"{Fore.BLUE}          " + str(letters[i] + f"{Style.RESET_ALL} " + "┃" + " {} │ {} │ {} ┃"*3).format(*[str(x) if x != 0 else " " for x in row]))
         if i % 3 == 2:
             print("            " + "┣" + ("━━━┿"*2 + "━━━╋")*2 + "━━━┿"*2 + "━━━┫")
         elif i % 20 == 18:
@@ -80,6 +80,8 @@ def newcord():
         z = ABC[x] 
     valid_numbers = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9,)
     y = (int(input(" Enter a number between 1-9 , ( 0 for clear your mistake ):  "))) - 1
+    if ValueCheck(z,y) == True:
+        print("nem jo")
     if y not in valid_numbers:
         print("Enter a valid number between 1-9 ")
         print(matrix_list_prod[z][y])
@@ -161,7 +163,6 @@ matrix_list_prod = SudokuImport(1) #"r" for random sudoku
 """Itt következik maga a sudoku tábla."""
 
 print_sudoku2(matrix_list_prod)
-print_numbers(matrix_list_prod) 
 
 
 """A koordinatak a 9x9-es táblát A1-től I9-ig osztják fel. Egy harmadik inputtal a kivalasztott mátrix pontra lehet
