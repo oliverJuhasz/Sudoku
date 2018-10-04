@@ -82,10 +82,6 @@ def user_input():
             continue
         ABC = {"A":0, "B":1, "C":2, "D":3, "E":4, "F":5, "G":6, "H":7, "I":8}
         valid_numbers = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
-        print(userinput[0])
-        print(userinput[1])
-        print(userinput[2])
-        print(userinput[3])
         if (int(userinput[1]) not in valid_numbers[1:] 
         or int(userinput[3]) not in valid_numbers
         or userinput[0] not in list(ABC.keys())
@@ -94,6 +90,9 @@ def user_input():
             continue
         x = int(ABC[userinput[0]])
         y = int(userinput[1])
+        if matrix_list_original[x][y-1] > 0:
+            print("\nOriginal value cannot be changed!\n")
+            continue
         req_value = int(userinput[3])
         matrix_list_prod[x][y-1] = req_value
         update()        
