@@ -66,20 +66,20 @@ def color_checker(board,x,y):
     templist = []
     blockIDx = 0
     blockIDy = 0
-    if x < 4:
+    if x < 3:
         blockIDx = 0
-    elif x < 7:
+    elif x < 6:
         blockIDx = 3
-    elif x < 10:
+    elif x < 9:
         blockIDx = 6
-    if y < 4:
+    if y < 3:
         blockIDy = 0
-    elif y < 7:
+    elif y < 6:
         blockIDy = 3
-    elif y < 10:
+    elif y < 9:
         blockIDy = 6    
-    for i in range(0 + blockIDy, 3 + blockIDy):
-        for i2 in range(0 + blockIDx, 3 + blockIDx):
+    for i in range(0 + blockIDx, 3 + blockIDx):
+        for i2 in range(0 + blockIDy, 3 + blockIDy):
             templist.append(board[i][i2])
     if templist.count(checked_number) > 1:
         return True
@@ -182,6 +182,13 @@ def check_verification():
                 check_verification += 1
     return True if check_verification == 27 else False
 
+def clear_table():
+    if platform.system() == 'Linux':
+        os.system('clear')
+
+    elif platform.system() == 'Windows':
+        os.system('cls')
+
 # A mátrix , a sudoku mezőinek értékeivel. Az értékek mátrix elemenként változtathatóak.
 
 
@@ -217,6 +224,8 @@ while True:
             continue
         matrix_list_original = SudokuImport(user_answer)
         matrix_list_prod = copy.deepcopy(matrix_list_original)
+        clear_table()
+        print(cont)
         print_sudoku2(color_generator(matrix_list_prod))
         while True:
             if user_input() == True:
@@ -225,12 +234,15 @@ while True:
     if user_answer == 2:
         matrix_list_original = SudokuImport("r")
         matrix_list_prod = copy.deepcopy(matrix_list_original)
+        clear_table()
+        print(cont)
         print_sudoku2(color_generator(matrix_list_prod))
         while True:
             if user_input() == True:
                 break
         break
-
+    if user_answer == 3:
+        sys.exit()
 
 if platform.system() == 'Linux':
     os.system('clear')
