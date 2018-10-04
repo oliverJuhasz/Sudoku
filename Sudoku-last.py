@@ -42,11 +42,48 @@ def color_generator(board):
         for i2, subelem in enumerate(elem):
             if matrix_list_original[i][i2] > 0:
                 colortrix[i][i2] = f"{Fore.MAGENTA}{board[i][i2]}{Style.RESET_ALL}"        
+            elif subelem != 0 and color_checker(board,i,i2):
+                colortrix[i][i2] = f"{Fore.RED}{board[i][i2]}{Style.RESET_ALL}"  
             elif board[i][i2] == 0:
                 colortrix[i][i2] = " "
             else:
-                colortrix[i][i2] = subelem          
+                colortrix[i][i2] = subelem      
     return colortrix
+
+def color_checker(board,x,y):
+    checked_number = board[x][y]
+    templist = []
+    
+    #horizontal check
+    if board[x].count(checked_number) > 1:
+        return True
+    #vertical check
+    templist = list(board[i][0] for i in range(0,9))
+    if templist.count(checked_number) > 1:
+        return True
+    #block check
+    templist = []
+    blockIDx = 0
+    blockIDy = 0
+    if x < 4:
+        blockIDx = 0
+    elif x < 7:
+        blockIDx = 3
+    elif x < 10:
+        blockIDx = 6
+    if y < 4:
+        blockIDy = 0
+    elif y < 7:
+        blockIDy = 3
+    elif y < 10:
+        blockIDy = 6    
+    for i in range(0 + blockIDy, 3 + blockIDy):
+        for i2 in range(0 + blockIDx, 3 + blockIDx):
+            templist.append(board[i][i2])
+    if templist.count(checked_number) > 1:
+        return True
+
+
 
 
 def MatrixFill(string):
