@@ -2,7 +2,7 @@
 Sudoku game by Roland and Oliver. All rights reserved.
 
 """
-
+import copy
 import os
 import platform
 import random
@@ -37,29 +37,15 @@ def SudokuImport(x):
 
 
 def color_generator(board):
-    colortrix = board
+    colortrix = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,2,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
     for i, elem in enumerate(board):
         for i2, subelem in enumerate(elem):
-            if subelem == 1:
-                colortrix[i][i2] = f"{Fore.CYAN}1{Style.RESET_ALL}"
-            elif subelem == 2:
-                colortrix[i][i2] = f"{Fore.RED}2{Style.RESET_ALL}"                
-            elif subelem == 3:
-                colortrix[i][i2] = f"{Fore.GREEN}3{Style.RESET_ALL}"     
-            elif subelem == 4:
-                colortrix[i][i2] = f"{Fore.YELLOW}4{Style.RESET_ALL}"    
-            elif subelem == 5:
-                colortrix[i][i2] = f"{Fore.BLUE}5{Style.RESET_ALL}"    
-            elif subelem == 6:
-                colortrix[i][i2] = f"{Fore.MAGENTA}6{Style.RESET_ALL}"    
-            elif subelem == 7:
-                colortrix[i][i2] = f"{Fore.WHITE}7{Style.RESET_ALL}"    
-            elif subelem == 8:
-                colortrix[i][i2] = f"{Fore.BLUE}8{Style.RESET_ALL}"                                                                            
-            elif subelem == 9:
-                colortrix[i][i2] = f"{Fore.GREEN}9{Style.RESET_ALL}"                    
+            if matrix_list_original[i][i2] > 0:
+                colortrix[i][i2] = f"{Fore.MAGENTA}{board[i][i2]}{Style.RESET_ALL}"        
+            elif board[i][i2] == 0:
+                colortrix[i][i2] = " "
             else:
-                colortrix[i][i2] = " "                  
+                colortrix[i][i2] = subelem          
     return colortrix
 
 
@@ -121,11 +107,11 @@ def update():
     if platform.system() == 'Linux':
         os.system('clear')
         print(cont)
-        print_sudoku2(matrix_list_prod)
+        print_sudoku2(color_generator(matrix_list_prod))  
     elif platform.system() == 'Windows':
         os.system('cls')
         print(cont)
-        print_sudoku2(matrix_list_prod)      
+        print_sudoku2(color_generator(matrix_list_prod))     
 
 def check_validation():
     ValidationCheck = 0  
@@ -159,7 +145,7 @@ def check_verification():
 
 
 matrix_list_original = SudokuImport("r")
-matrix_list_prod = SudokuImport("r") #"r" for random sudoku
+matrix_list_prod = copy.deepcopy(matrix_list_original) #"r" for random sudoku
 #for Line in range(0,9):
     #print(MatrixList[Line])
 
