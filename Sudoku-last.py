@@ -10,15 +10,17 @@ import time
 from colorama import init
 from colorama import Fore, Back, Style
 
-with open("title.txt","r") as f:
-    cont =f.read()
+with open("title.txt", "r") as f:
+    cont = f.read()
     print (cont)
 
-with open("sudoku-top95.txt", "r") as f:
+with open("sudoku-top95.txt" , "r") as f:
     sudokus = f.readlines()
+
 
 def ValueCheck(x,y):
     return True if matrix_list_original[x][y] > 0 else False
+
 
 def SudokuImport(x):
     with open("sudoku-top95.txt", "r") as f:
@@ -32,6 +34,34 @@ def SudokuImport(x):
             return MatrixFill(temp[x - 1] )
         else:
             return MatrixFill(temp[1])
+
+
+def color_generator(board):
+    colortrix = [[1,8,4,9,6,3,7,2,5],[5,6,2,7,4,8,3,1,9],[3,9,7,5,1,2,8,6,4],[2,3,9,6,5,7,1,4,8],[7,5,6,1,8,4,2,9,3],[4,1,8,2,3,9,6,5,7],[9,4,1,3,7,6,5,8,2],[6,2,3,8,9,5,4,7,1],[8,7,5,4,2,1,9,3,6]]
+    for i, elem in enumerate(board):
+        for i2, subelem in enumerate(elem):
+            if subelem == 1:
+                colortrix[i][i2] = f"{Fore.CYAN}1{Style.RESET_ALL}"
+            elif subelem == 2:
+                colortrix[i][i2] = f"{Fore.RED}2{Style.RESET_ALL}"                
+            elif subelem == 3:
+                colortrix[i][i2] = f"{Fore.GREEN}3{Style.RESET_ALL}"     
+            elif subelem == 4:
+                colortrix[i][i2] = f"{Fore.YELLOW}4{Style.RESET_ALL}"    
+            elif subelem == 5:
+                colortrix[i][i2] = f"{Fore.BLUE}5{Style.RESET_ALL}"    
+            elif subelem == 6:
+                colortrix[i][i2] = f"{Fore.MAGENTA}6{Style.RESET_ALL}"    
+            elif subelem == 7:
+                colortrix[i][i2] = f"{Fore.WHITE}7{Style.RESET_ALL}"    
+            elif subelem == 8:
+                colortrix[i][i2] = f"{Fore.BLUE}8{Style.RESET_ALL}"                                                                            
+            elif subelem == 9:
+                colortrix[i][i2] = f"{Fore.GREEN}9{Style.RESET_ALL}"                    
+            else:
+                colortrix[i][i2] = " "                  
+    return colortrix
+
 
 def MatrixFill(string):
     counter = 0
@@ -47,7 +77,7 @@ def print_sudoku2(board):  # A board a mátrix!!
     print(f"{Fore.BLUE}            " + "  1 " + "  2 " + "  3 " + "  4 " + "  5 " + "  6 " + "  7 " + "  8 " + "  9 " + f"  {Style.RESET_ALL}")
     print("            " + "┏" + "━━━┳"*8 + "━━━┓")
     for i, row in enumerate(board):
-        print(f"{Fore.BLUE}          " + str(letters[i] + f"{Style.RESET_ALL} " + "┃" + f"{Fore.CYAN}"" {} "f"{Style.RESET_ALL}│"f"{Fore.CYAN}"" {} "f"{Style.RESET_ALL}│"f"{Fore.CYAN}"" {} "f"{Style.RESET_ALL}┃"*3).format(*[x if x != 0 else " " for x in row]))
+        print(f"{Fore.BLUE}          " + str(letters[i] + f"{Style.RESET_ALL} " + "┃" + " {} │ {} │ {} ┃"*3).format(*[x if x != 0 else " " for x in row]))
         if i % 3 == 2:
             print("            " + "┣" + ("━━━┿"*2 + "━━━╋")*2 + "━━━┿"*2 + "━━━┫")
         elif i % 20 == 18:
@@ -126,16 +156,6 @@ def check_verification():
 
 # A mátrix , a sudoku mezőinek értékeivel. Az értékek mátrix elemenként változtathatóak.
 
-matrix_list_original = [\
-[0,1,8,0,0,0,0,3,0],
-[9,0,0,0,0,2,0,4,5],
-[7,0,0,0,0,6,0,0,0],
-[0,0,0,0,0,7,1,2,0],
-[0,0,0,0,5,0,0,0,0],
-[0,8,4,3,0,0,0,0,0],
-[0,0,0,7,0,0,0,0,6],
-[8,2,0,6,0,0,0,0,9],
-[0,3,0,0,0,0,5,8,0]]
 
 matrix_list_original = SudokuImport(1)
 matrix_list_prod = SudokuImport(1) #"r" for random sudoku
@@ -144,7 +164,7 @@ matrix_list_prod = SudokuImport(1) #"r" for random sudoku
 
 """Itt következik maga a sudoku tábla."""
 
-print_sudoku2(matrix_list_prod)
+print_sudoku2(color_generator(matrix_list_prod))
 
 """A koordinatak a 9x9-es táblát A1-től I9-ig osztják fel. Egy harmadik inputtal a kivalasztott mátrix pontra lehet
     új értéket megadni , illetve javítani az előző értéken."""
