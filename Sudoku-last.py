@@ -37,7 +37,7 @@ def SudokuImport(x):
 
 
 def color_generator(board):
-    colortrix = [[1,8,4,9,6,3,7,2,5],[5,6,2,7,4,8,3,1,9],[3,9,7,5,1,2,8,6,4],[2,3,9,6,5,7,1,4,8],[7,5,6,1,8,4,2,9,3],[4,1,8,2,3,9,6,5,7],[9,4,1,3,7,6,5,8,2],[6,2,3,8,9,5,4,7,1],[8,7,5,4,2,1,9,3,6]]
+    colortrix = board
     for i, elem in enumerate(board):
         for i2, subelem in enumerate(elem):
             if subelem == 1:
@@ -71,7 +71,8 @@ def MatrixFill(string):
             MatrixList[y][x] = int(string[counter])
             counter += 1
     return MatrixList
-    
+
+
 def print_sudoku2(board):  # A board a mátrix!!
     letters = tuple(("A","B","C","D","E","F","G","H","I"))
     print(f"{Fore.BLUE}            " + "  1 " + "  2 " + "  3 " + "  4 " + "  5 " + "  6 " + "  7 " + "  8 " + "  9 " + f"  {Style.RESET_ALL}")
@@ -157,8 +158,8 @@ def check_verification():
 # A mátrix , a sudoku mezőinek értékeivel. Az értékek mátrix elemenként változtathatóak.
 
 
-matrix_list_original = SudokuImport(1)
-matrix_list_prod = SudokuImport(1) #"r" for random sudoku
+matrix_list_original = SudokuImport("r")
+matrix_list_prod = SudokuImport("r") #"r" for random sudoku
 #for Line in range(0,9):
     #print(MatrixList[Line])
 
