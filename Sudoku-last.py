@@ -2,6 +2,7 @@
 Sudoku game by Roland and Oliver. All rights reserved.
 
 """
+import sys
 import copy
 import os
 import platform
@@ -113,17 +114,21 @@ def print_sudoku2(board):  # A board a mátrix!!
 def user_input():
     while True:
         userinput = input("Enter the coordinates of the value you wish to change, followed by colon and the new value.\nFor example, 'A1:4'.\nPress q to quit game:  ").upper()
-        if userinput == "q" or userinput == "Q": quit()
+        if userinput == "q" or userinput == "Q": sys.exit()
         if len(userinput) != 4:
             print("\nInvalid input, please try again!" + "\n" *2)
             continue
         ABC = {"A":0, "B":1, "C":2, "D":3, "E":4, "F":5, "G":6, "H":7, "I":8}
         valid_numbers = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
-        if (int(userinput[1]) not in valid_numbers[1:] 
-        or int(userinput[3]) not in valid_numbers
-        or userinput[0] not in list(ABC.keys())
-        or userinput[2] != ":"):
-            print("\nInvalid input, please try again!" + "\n" *2)
+        try:
+            if (int(userinput[1]) not in valid_numbers[1:] 
+            or int(userinput[3]) not in valid_numbers
+            or userinput[0] not in list(ABC.keys())
+            or userinput[2] != ":"):
+                print("\nInvalid input, please try again!" + "\n" *2)
+                continue
+        except:
+            print("invalid input, please try again!" + "\n" *2)
             continue
         x = int(ABC[userinput[0]])
         y = int(userinput[1])
@@ -180,14 +185,14 @@ def check_verification():
 # A mátrix , a sudoku mezőinek értékeivel. Az értékek mátrix elemenként változtathatóak.
 
 
-matrix_list_original = SudokuImport("r")
-matrix_list_prod = copy.deepcopy(matrix_list_original) #"r" for random sudoku
+
+ #"r" for random sudoku
 #for Line in range(0,9):
     #print(MatrixList[Line])
 
 """Itt következik maga a sudoku tábla."""
 
-print_sudoku2(color_generator(matrix_list_prod))
+
 
 """A koordinatak a 9x9-es táblát A1-től I9-ig osztják fel. Egy harmadik inputtal a kivalasztott mátrix pontra lehet
     új értéket megadni , illetve javítani az előző értéken."""
@@ -195,8 +200,37 @@ print_sudoku2(color_generator(matrix_list_prod))
 # Koordinatak és új értékek:
 
 while True:
-    if user_input() == True:
+    print("\nMenu:\n[1] Choose Sudoku\n[2] Random Sudoku\n[3] Quit")
+    try:
+        user_answer = int(input("Please enter menu item: "))
+    except:
+        print("invalid input\n")
+        continue
+    if user_answer == 1:
+        try:
+            user_answer = int(input("Please choose Sudoku from 1 to 95: "))
+        except:
+            print("invalid input\n")
+            continue
+        if 1 > user_answer > 95:
+            print("invalid input")
+            continue
+        matrix_list_original = SudokuImport(user_answer)
+        matrix_list_prod = copy.deepcopy(matrix_list_original)
+        print_sudoku2(color_generator(matrix_list_prod))
+        while True:
+            if user_input() == True:
+                break
         break
+    if user_answer == 2:
+        matrix_list_original = SudokuImport("r")
+        matrix_list_prod = copy.deepcopy(matrix_list_original)
+        print_sudoku2(color_generator(matrix_list_prod))
+        while True:
+            if user_input() == True:
+                break
+        break
+
 
 if platform.system() == 'Linux':
     os.system('clear')
@@ -204,7 +238,7 @@ if platform.system() == 'Linux':
 elif platform.system() == 'Windows':
     os.system('cls')
     
-print("Your winner!")
+print(" _______  .__                    ____.     ___.  ._.\n \      \ |__| ____  ____       |    | ____\_ |__| |\n /   |   \|  |/ ___\/ __ \      |    |/  _ \| __ \ |\n/    |    \  \  \__\  ___/  /\__|    (  <_> ) \_\ \|\n\____|__  /__|\___  >___  > \________|\____/|___  /_\n        \/        \/    \/                      \/\/")
 
 """A győzelmi feltételek , illetve a helyes értékek ellenőrzése , eredmény megjelenítése"""
 
